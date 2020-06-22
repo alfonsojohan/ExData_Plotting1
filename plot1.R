@@ -27,13 +27,14 @@ if (!file.exists(data_file)) {
 cat("Reading all data...\n")
 data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 
-# Convert first column to date
-data$Date <- strptime(data$Date, format = "%e/%m/%Y")
+# Create new date time column using the date and time value
+data$DateTime <- strptime(paste(data$Date, data$Time, sep = " "), 
+                          format = "%e/%m/%Y %H:%M:%S")
 
 # subset for Feb 1-2, 2007
 cat("Subsetting data for February 1 & 2, 2006...\n")
-data <- data[data$Date >= as.POSIXct('2007-02-01') 
-             & data$Date <= as.POSIXct('2007-02-02'), ]
+data <- data[data$DateTime >= as.POSIXlt('2007-02-01 00:00:00') 
+             & data$DateTime < as.POSIXlt('2007-02-03 00:00:00'), ]
 
 # set the png graphics device
 cat("Plotting histogram to png graphics device...\n")
