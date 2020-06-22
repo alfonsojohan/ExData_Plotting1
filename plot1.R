@@ -25,8 +25,7 @@ if (!file.exists(data_file)) {
 
 # Read in the data 
 cat("Reading all data...\n")
-data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"), 
-                   nrows = 100000)
+data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 
 # Convert first column to date
 data$Date <- strptime(data$Date, format = "%e/%m/%Y")
