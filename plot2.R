@@ -37,12 +37,15 @@ data <- data[data$DateTime >= as.POSIXlt('2007-02-01 00:00:00')
              & data$DateTime < as.POSIXlt('2007-02-03 00:00:00'), ]
 
 # set the png graphics device
-# cat("Plotting histogram to png graphics device...\n")
-#png(filename = "plot1.png", height = 480, width = 480, units = "px")
+cat("Plotting histogram to png graphics device...\n")
+png(filename = "plot2.png", height = 480, width = 480, units = "px")
 
+# Create the chart
+plot(data$DateTime, data$Global_active_power, type = "l", xlab = "", 
+     ylab = "Global Active Power (kilowatts)")
 
 # Close graphics device
-# cat("Saving plot as plot1.png...\n")
-# dev.off()
+cat("Saving chart...\n")
+dev.off()
 
 cat("Activity complete!\n")
