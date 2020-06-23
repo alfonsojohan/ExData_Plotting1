@@ -28,21 +28,34 @@ cat("Reading all data...\n")
 data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 
 # Create new date time column using the date and time value
-data$DateTime <- strptime(paste(data$Date, data$Time, sep = " "), 
-                          format = "%e/%m/%Y %H:%M:%S")
+data$DateTime <- as.POSIXct(paste(data$Date, data$Time), 
+                            format = "%e/%m/%Y %H:%M:%S")
 
 # subset for Feb 1-2, 2007
-cat("Subsetting data for February 1 & 2, 2006...\n")
+cat("Subsetting data for February 1 & 2, 2007...\n")
 data <- data[data$DateTime >= as.POSIXlt('2007-02-01 00:00:00') 
              & data$DateTime < as.POSIXlt('2007-02-03 00:00:00'), ]
 
 # set the png graphics device
-# cat("Plotting histogram to png graphics device...\n")
-#png(filename = "plot1.png", height = 480, width = 480, units = "px")
+cat("Plotting histogram to png graphics device...\n")
+png(filename = "plot4.png", height = 480, width = 480, units = "px")
 
+# set the par rows
+par(mfrow = c(2,2))
+with(data, plot(DateTime, Global_active_power, type = "l", xlab = "", ylab = "Global Active Power"))
+
+with(data, plot(DateTime, Voltage, type = "l", ylab = "Voltage", xlab = "datetime"))
+
+with(data, plot(Sub_metering_1 ~ DateTime, data = data, type = "l", ylab = "Energy sub metering", xlab = ""))
+with(data, lines(Sub_metering_2 ~ DateTime, data = data, type = "l", col = "red"))
+with(data, lines(Sub_metering_3 ~ DateTime, data = data, type = "l", col = "blue"))
+
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), col = c("black", "red", "blue"), lwd = 1, bty = "n")
+
+with(data, plot(Global_reactive_power ~ DateTime, data = data, type = "l", xlab = "datetime"))
 
 # Close graphics device
-# cat("Saving plot as plot1.png...\n")
-# dev.off()
+cat("Saving plot...\n")
+dev.off()
 
 cat("Activity complete!\n")
