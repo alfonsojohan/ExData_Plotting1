@@ -31,7 +31,7 @@ data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 data$DateTime <- as.POSIXct(paste(data$Date, data$Time), format = "%e/%m/%Y %H:%M:%S")
 
 # subset for Feb 1-2, 2007
-cat("Subsetting data for February 1 & 2, 2006...\n")
+cat("Subsetting data for February 1 & 2, 2007...\n")
 data <- data[data$DateTime >= as.POSIXlt('2007-02-01 00:00:00') 
              & data$DateTime < as.POSIXlt('2007-02-03 00:00:00'), ]
 
