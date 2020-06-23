@@ -28,8 +28,7 @@ cat("Reading all data...\n")
 data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 
 # Create new date time column using the date and time value
-data$DateTime <- strptime(paste(data$Date, data$Time, sep = " "), 
-                          format = "%e/%m/%Y %H:%M:%S")
+data$DateTime <- as.POSIXct(paste(data$Date, data$Time), format = "%e/%m/%Y %H:%M:%S")
 
 # subset for Feb 1-2, 2007
 cat("Subsetting data for February 1 & 2, 2006...\n")
@@ -37,12 +36,21 @@ data <- data[data$DateTime >= as.POSIXlt('2007-02-01 00:00:00')
              & data$DateTime < as.POSIXlt('2007-02-03 00:00:00'), ]
 
 # set the png graphics device
-# cat("Plotting histogram to png graphics device...\n")
-#png(filename = "plot1.png", height = 480, width = 480, units = "px")
+cat("Plotting histogram to png graphics device...\n")
+png(filename = "plot3.png", height = 480, width = 480, units = "px")
 
+# Create the charts
+plot(data$Sub_metering_1 ~ data$DateTime, data = data, type = "l",
+     ylab = "Energy sub metering", xlab = "")
+lines(data$Sub_metering_2 ~ data$DateTime, data = data, type = "l", col = "red")
+lines(data$Sub_metering_3 ~ data$DateTime, data = data, type = "l", col = "blue")
+
+# Add the legend
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), 
+       col = c("black", "red", "blue"), lwd = 1)
 
 # Close graphics device
-# cat("Saving plot as plot1.png...\n")
-# dev.off()
+cat("Saving plot as plot1.png...\n")
+dev.off()
 
 cat("Activity complete!\n")
