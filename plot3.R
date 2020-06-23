@@ -28,7 +28,8 @@ cat("Reading all data...\n")
 data <- read.table(data_file, sep = ";", header = TRUE, na.strings = c("?"))
 
 # Create new date time column using the date and time value
-data$DateTime <- as.POSIXct(paste(data$Date, data$Time), format = "%e/%m/%Y %H:%M:%S")
+data$DateTime <- as.POSIXct(paste(data$Date, data$Time), 
+                            format = "%e/%m/%Y %H:%M:%S")
 
 # subset for Feb 1-2, 2007
 cat("Subsetting data for February 1 & 2, 2007...\n")
